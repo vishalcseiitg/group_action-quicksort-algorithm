@@ -14,3 +14,7 @@ arrays, depending on the distribution of the pivot candidates. Overall, Group
 Action Quicksort is a promising direction for improving the performance of the
 Quicksort algorithm and opens up new possibilities for exploring the intersection
 of algebra and algorithms.
+
+In the Group Action Quicksort algorithm, the key difference is in the way the pivot is chosen. Instead of selecting a single pivot element, the algorithm selects a set of k pivots that are evenly spaced along the array. The array is then partitioned around the median of the k pivots, and the same process is repeated recursively for the subarrays until the entire array is sorted.
+
+The advantage of using multiple pivots is that it leads to a more balanced partitioning of the array, which can improve the performance of the algorithm. Additionally, the use of a group action allows the algorithm to handle elements that have multiple attributes or dimensions.
