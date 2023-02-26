@@ -1,4 +1,5 @@
 import random
+import time
 
 # define a node class for the graph
 class Node:
@@ -122,4 +123,18 @@ sorted_integers = sorted(integers)
 with open('output.txt', 'w') as output_file:
     for integer in sorted_integers:
         output_file.write(str(integer) + '\n')
+        
+with open('input.txt', 'r') as input_file:
+    integers = list(map(int, input_file.readlines()))
+
+start_time = time.time()
+sorted_integers = sorted(integers)
+end_time = time.time()
+
+with open('output.txt', 'w') as output_file:
+    for integer in sorted_integers:
+        output_file.write(str(integer) + '\n')
+
+with open('timing.txt', 'w') as timing_file:
+    timing_file.write('Time taken: {} seconds'.format(end_time - start_time))
 
