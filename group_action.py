@@ -82,13 +82,18 @@ def partition(head, i):
 
 # sort the graph using GroupActionQuicksort
 def group_action_quicksort(head):
+    # Base case
     if head is None or head.next is None:
         return head
+    
+    # Determine the length of the list
     n = 0
     curr = head
     while curr is not None:
         n += 1
         curr = curr.next
+    
+    # Find the pivot element and partition the list around it
     p = None
     for i in range(n):
         g = head
@@ -114,27 +119,63 @@ def group_action_quicksort(head):
             l = group_action_quicksort(l)
             r = group_action_quicksort(r)
             p = node_at_index(head, i)
-           
-with open('input.txt', 'r') as input_file:
-    integers = list(map(int, input_file.readlines()))
+            break
+    
+    # Concatenate the three sublists
+    if l is None:
+        left = p
+    else:
+        left = l
+        tail = left
+        while tail.next is not None:
+            tail = tail.next
+        tail.next = p
+    
+    if r is None:
+        right = None
+    else:
+        right = r
+        right = cyclic_shift(right, 1)
+    
+    if left is None:
+        head = p
+    else:
+        head = left
+        tail = left
+        while tail.next is not None:
+            tail = tail.next
+        tail.next = p
+    p.next = right
+    
+    # Return the sorted list
+    return head
 
-sorted_integers = sorted(integers)
+# Define the input and output file paths
+input_file = "input.txt"
+output_file = "output.txt"
+time_file = "time.txt"
 
-with open('output.txt', 'w') as output_file:
-    for integer in sorted_integers:
-        output_file.write(str(integer) + '\n')
-        
-with open('input.txt', 'r') as input_file:
-    integers = list(map(int, input_file.readlines()))
+# Read the input list from the input file
+with open(input_file, "r") as f:
+    nums = list(map(int, f.readline().strip().split()))
 
+# Convert the input list to a linked list
+head = None
+for num in nums:
+    head = add_node(head, num)
+
+# Sort the linked list using group_action_quicksort and measure the time taken
 start_time = time.time()
-sorted_integers = sorted(integers)
+head = group_action_quicksort(head)
 end_time = time.time()
+time_taken = end_time - start_time
 
-with open('output.txt', 'w') as output_file:
-    for integer in sorted_integers:
-        output_file.write(str(integer) + '\n')
+# Write the sorted list and time taken to the output and time files
+with open(output_file, "w") as f:
+    curr = head
+    while curr is not None:
+        f.write(str(curr.value) + " ")
+        curr = curr.next
 
-with open('timing.txt', 'w') as timing_file:
-    timing_file.write('Time taken: {} seconds'.format(end_time - start_time))
-
+with open(time_file, "w") as f:
+    f.write(str(time_taken))
